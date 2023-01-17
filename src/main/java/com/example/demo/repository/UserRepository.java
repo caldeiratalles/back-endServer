@@ -50,15 +50,11 @@ public class UserRepository {
         }
     }
 
-    public void deleteUser(User user){
+    public int deleteUser(User user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
-        try {
-            this.jdbcTemplate.update(
+        return this.jdbcTemplate.update(
                     "query",
                     sqlParametrosSelect);
-        } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel deletar o usuario com o email: "+user.getLogin()+" para o status de "+user.getStatus());
-        }
     }
 }

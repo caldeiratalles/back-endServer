@@ -4,9 +4,10 @@ import com.example.demo.models.Stock;
 import com.example.demo.models.User;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/userStock")
@@ -22,17 +23,22 @@ public class UserController {
     }
 
     @GetMapping
-    public User findUser(@RequestBody User user){
-        userService.findUser(user);
+    public Optional<User> findUser(@RequestBody User user){
+        return userService.findUser(user);
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.createUser(user);
+    public Optional<User> createUser(@RequestBody User user){
+        return userService.createUser(user);
     }
 
     @PostMapping
-    public void requisitionDonation(@RequestBody User user, @RequestBody Stock stock){
-        stockService.requisitionDonation(user,stock);
+    public ResponseEntity requisitionDonation(@RequestBody User user, @RequestBody Stock stock){
+        return stockService.updatePiece(user,stock);
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteUser(@RequestBody User user){
+        return userService.deleteUser(user);
     }
 }

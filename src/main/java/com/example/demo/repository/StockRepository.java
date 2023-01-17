@@ -38,7 +38,7 @@ public class StockRepository {
         }
     }
 
-    public List<Stock> findPiece(Stock stock){
+    public List<Stock> findAllPieces(){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
             return this.jdbcTemplate.query(
@@ -47,7 +47,16 @@ public class StockRepository {
                     (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
-    public void updatePiece(Stock stock, User user){
+    public Optional<Stock> findByPiece(Stock stock, User user){
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        //sqlParametrosSelect.addValue("valor",bind);
+        return Optional.ofNullable(this.jdbcTemplate.queryForObject(
+                "query",
+                sqlParametrosSelect,
+                (rs, rowNum) -> StockMapper.stockMapper(rs)));
+    }
+
+    public Integer updatePiece(Stock stock, User user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
         try {
@@ -57,5 +66,6 @@ public class StockRepository {
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel atualizar a peca requisitada pelo user com o email: "+user.getLogin()+" para o status de "+user.getStatus());
         }
+        return null;
     }
 }

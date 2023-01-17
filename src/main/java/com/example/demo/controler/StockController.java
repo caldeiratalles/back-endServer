@@ -4,12 +4,10 @@ import com.example.demo.models.Stock;
 import com.example.demo.models.User;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/stock")
@@ -25,19 +23,17 @@ public class StockController {
     }
 
     @GetMapping()
-    public List<Stock> findStockAll(){
-        List<Stock> stockAll = stockService.findAll();
-        return stockAll;
+    public List<Stock> findAllPieces(){
+        return stockService.findAllPieces();
     }
 
     @GetMapping()
-    public Stock findStockByName(@RequestBody Stock stock, @RequestBody User user){
-        Stock stockByPiece = stockService.findStockByName(stock, user);
-        return stockByPiece;
+    public Optional<Stock> findByPiece(@RequestBody Stock stock, @RequestBody User user){
+        return stockService.findByPiece(stock, user);
     }
 
     @PostMapping
-    public void createStockPiece(@RequestBody Stock stock, @RequestBody User user){
-        stockService.createStockPiece(stock);
+    public Optional<Stock> createDonation(@RequestBody Stock stock, @RequestBody User user){
+        return stockService.createDonation(stock,user);
     }
 }
