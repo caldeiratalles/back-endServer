@@ -22,12 +22,12 @@ public class StockController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/allPiece")
     public List<Stock> findAllPieces(){
         return stockService.findAllPieces();
     }
 
-    @GetMapping()
+    @GetMapping("/byPiece")
     public Optional<Stock> findByPiece(@RequestBody Stock stock, @RequestBody User user){
         return stockService.findByPiece(stock, user);
     }

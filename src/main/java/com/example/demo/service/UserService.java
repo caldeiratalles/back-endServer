@@ -12,11 +12,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final StockRepository stockRepository;
     private final UserRepository userRepository;
 
-    public UserService(StockRepository stockRepository, UserRepository userRepository) {
-        this.stockRepository = stockRepository;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

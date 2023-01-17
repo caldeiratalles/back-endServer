@@ -22,22 +22,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/findUser")
     public Optional<User> findUser(@RequestBody User user){
         return userService.findUser(user);
     }
 
-    @PostMapping
+    @PostMapping("/createUser")
     public Optional<User> createUser(@RequestBody User user){
         return userService.createUser(user);
     }
 
-    @PostMapping
+    @PostMapping("/donation")
     public ResponseEntity requisitionDonation(@RequestBody User user, @RequestBody Stock stock){
         return stockService.updatePiece(user,stock);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/deleteUser")
     public ResponseEntity deleteUser(@RequestBody User user){
         return userService.deleteUser(user);
     }
