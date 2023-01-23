@@ -33,4 +33,8 @@ public class UserService {
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
+    public Optional<User> login(User user) {
+        return userRepository.login(user);
+    }
 }

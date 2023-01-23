@@ -57,4 +57,18 @@ public class UserRepository {
                     "query",
                     sqlParametrosSelect);
     }
+
+    public Optional<User> login(User user) {
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        //sqlParametrosSelect.addValue("valor",bind);
+        try {
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(
+                    "query",
+                    sqlParametrosSelect,
+                    (rs, rowNum) -> UserMapper.userMapper(rs)));
+        } catch (EmptyResultDataAccessException ex) {
+            LOGGER.error("Impossivel logar o usuario com o email: "+user.getLogin()+" para o status de "+user.getStatus());
+            return Optional.empty();
+        }
+    }
 }

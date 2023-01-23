@@ -22,6 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/login")
+    public Optional<User> login(@RequestBody User user){
+        return userService.login(user);
+    }
+
     @GetMapping("/findUser")
     public Optional<User> findUser(@RequestBody User user){
         return userService.findUser(user);
