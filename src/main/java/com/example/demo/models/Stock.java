@@ -18,6 +18,8 @@ public class Stock {
     private Integer categoriaDoItem; // td_categoria_id_categoria_item
     private String username; // login_usuario
     private Integer recebe; // recebe == null(Quer receber uma peça o usuario) ou inteiro(Quando quer doar uma peça para o sistema)
-    private Integer doa; // doa == null(Quando quer doar uma peça para o sistema) ou inteiro(Quando quer doar uma peça para o sistema)
-    private Integer quantidadeDoa; // qtd_doa
+    private Integer doa; // inteiro ou  null(Quando quer doar uma peça para o sistema)
+    private Integer quantidadeDoa; // qtd_doa inteiro ou null
+    // combinação para requestDonation (null, inteiro(qualquer), quantidade(inteiro))
+    // combinação para createDonation (inteiro(qualquer), null, null)
 }

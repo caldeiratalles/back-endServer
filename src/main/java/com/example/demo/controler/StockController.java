@@ -15,11 +15,9 @@ import java.util.Optional;
 public class StockController {
 
     private final StockService stockService;
-    private final UserService userService;
 
-    public StockController(StockService stockService, UserService userService) {
+    public StockController(StockService stockService) {
         this.stockService = stockService;
-        this.userService = userService;
     }
 
     // TODO falta query
@@ -35,7 +33,12 @@ public class StockController {
     }
 
     @PostMapping("/createDonation")
-    public Stock createDonation(@RequestBody Stock stock, @RequestBody UserCreator user){
-        return stockService.createDonation(stock,user);
+    public Stock createDonation(@RequestBody Stock stock){
+        return stockService.createDonation(stock);
+    }
+
+    @PostMapping("/requestDonation")
+    public Stock requestDonation(@RequestBody Stock stock){
+        return stockService.requestDonation(stock);
     }
 }

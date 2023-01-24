@@ -40,11 +40,6 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PostMapping("/requisitionDonation")
-    public Stock requisitionDonation(@RequestBody UserDTO user, @RequestBody Stock stock){
-        return stockService.updatePiece(user,stock);
-    }
-
     // TODO falta query
     @DeleteMapping("/deleteUser")
     public ResponseEntity deleteUser(@RequestBody UserCreator user){

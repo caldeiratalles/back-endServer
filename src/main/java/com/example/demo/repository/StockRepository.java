@@ -7,8 +7,10 @@ import com.example.demo.repository.mapper.StockMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,33 +21,37 @@ public class StockRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StockRepository.class);
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public StockRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    private final JdbcTemplate jdbcTemplate;
+    public StockRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Stock createDonation(Stock stock, UserCreator user){
+    public int createDonation(Stock stock){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
+        sqlParametrosSelect.addValue("item_item",stock.getItem());
+        sqlParametrosSelect.addValue("descricao_item",stock.getDescricao());
+        sqlParametrosSelect.addValue("qtd_estoque_item",stock.getQuantidadeEstoque());
+        sqlParametrosSelect.addValue("imagem_item",stock.getImagem());
+        sqlParametrosSelect.addValue("td_categoria_id_categoria_item",stock.getCategoriaDoItem());
+        sqlParametrosSelect.addValue("login_usuario",stock.getUsername());
+        sqlParametrosSelect.addValue("recebe",stock.getRecebe());
+        sqlParametrosSelect.addValue("doa",stock.getDoa());
+        sqlParametrosSelect.addValue("qtd_doa",stock.getQuantidadeDoa());
+
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("sp_cria_item_estoque");
         try {
-            return this.jdbcTemplate.queryForObject(
-                    "query",
-                    sqlParametrosSelect,
-                    (rs, rowNum) -> StockMapper.stockMapper(rs));
+            return (int) simpleJdbcCall.execute(sqlParametrosSelect).get("saida");
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel criar o stock com o email: "+user.getEmail());
-            return null;
+            LOGGER.error("Impossivel adicionar no estoque: "+stock.getItem() + "com a descrição: "+stock.getDescricao());
+            return 0;
         }
     }
 
     public List<Stock> findAllPieces(){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
-            return this.jdbcTemplate.query(
-                    "query",
-                    sqlParametrosSelect,
-                    (rs, rowNum) -> StockMapper.stockMapper(rs));
+            return this.jdbcTemplate.queryForList(
+                    "query",Stock.class);
     }
 
     public Stock findByPiece(Stock stock, UserCreator user){
@@ -53,20 +59,27 @@ public class StockRepository {
         //sqlParametrosSelect.addValue("valor",bind);
         return this.jdbcTemplate.queryForObject(
                 "query",
-                sqlParametrosSelect,
-                (rs, rowNum) -> StockMapper.stockMapper(rs));
+                Stock.class);
     }
 
-    public Integer requestDonation(Stock stock, UserDTO user){
+    public Integer requestDonation(Stock stock){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
+        sqlParametrosSelect.addValue("item_item",stock.getItem());
+        sqlParametrosSelect.addValue("descricao_item",stock.getDescricao());
+        sqlParametrosSelect.addValue("qtd_estoque_item",stock.getQuantidadeEstoque());
+        sqlParametrosSelect.addValue("imagem_item",stock.getImagem());
+        sqlParametrosSelect.addValue("td_categoria_id_categoria_item",stock.getCategoriaDoItem());
+        sqlParametrosSelect.addValue("login_usuario",stock.getUsername());
+        sqlParametrosSelect.addValue("recebe",stock.getRecebe());
+        sqlParametrosSelect.addValue("doa",stock.getDoa());
+        sqlParametrosSelect.addValue("qtd_doa",stock.getQuantidadeDoa());
+
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("sp_cria_item_estoque");
         try {
-            this.jdbcTemplate.update(
-                    "query",
-                    sqlParametrosSelect);
+            return (int) simpleJdbcCall.execute(sqlParametrosSelect).get("saida");
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel atualizar a peca requisitada pelo user com o email: "+user.getEmail());
+            LOGGER.error("Impossivel fazer a doação no estoque: "+stock.getItem() + "com a descrição: "+stock.getDescricao());
+            return 0;
         }
-        return null;
     }
 }

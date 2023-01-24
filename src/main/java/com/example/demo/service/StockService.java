@@ -4,16 +4,18 @@ import com.example.demo.models.Stock;
 import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.StockRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StockService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockService.class);
 
     private final StockRepository stockRepository;
 
@@ -29,13 +31,17 @@ public class StockService {
         return stockRepository.findByPiece(stock,user);
     }
 
-    public Stock createDonation(Stock stock, UserCreator user) {
-        return stockRepository.createDonation(stock,user);
+    public Stock createDonation(Stock stock) {
+        LOGGER.info(stock.toString());
+        if(stockRepository.createDonation(stock) == 0){
+            return null;
+        }
+        return stock;
     }
 
-    @Transactional
-    public Stock updatePiece(UserDTO user, Stock stock) {
-        if(stockRepository.requestDonation(stock,user) == 0){
+    public Stock requestDonation(Stock stock) {
+        LOGGER.info(stock.toString());
+        if(stockRepository.requestDonation(stock) == 0){
             return null;
         }
         return stock;

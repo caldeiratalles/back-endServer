@@ -32,7 +32,7 @@ public class UserRepository {
             return Optional.ofNullable(this.jdbcTemplate.queryForObject(
                     "query",UserCreator.class));
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel logar o usuario com o email: "+user.getEmail());
+            LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
             return Optional.empty();
         }
     }
@@ -45,7 +45,7 @@ public class UserRepository {
                     "query",
                     UserCreator.class));
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel encontrar o usuario com o email: "+user.getEmail());
+            LOGGER.error("Impossivel encontrar o usuario com o email: "+user.getUsername());
             return Optional.empty();
         }
     }
