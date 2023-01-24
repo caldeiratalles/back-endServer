@@ -7,11 +7,13 @@ import com.example.demo.repository.mapper.StockMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
@@ -49,16 +51,20 @@ public class StockRepository {
             return this.jdbcTemplate.query(
                     "SELECT * \n" +
                             "FROM tb_item ti\n" +
-                            "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria",
+                            "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
+                            "WHERE  ti.ativo = 1;",
                     (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
-    public Stock findByPiece(Stock stock, UserCreator user){
-        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
+    public StockDTO findByPiece(Integer id_item){
+        String sql = String.format("SELECT *\n" +
+                "FROM tb_item ti\n" +
+                "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria\n" +
+                "WHERE ti.id_item = %1$s ", id_item);
         return this.jdbcTemplate.queryForObject(
-                "query",
-                Stock.class);
+                sql,
+                new Object[]{},
+                (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
     public Integer requestDonation(Stock stock){

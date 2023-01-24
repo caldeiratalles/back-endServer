@@ -28,8 +28,8 @@ public class StockService {
         return stockRepository.findAllPieces();
     }
 
-    public Stock findByPiece(Stock stock, UserCreator user) {
-        return stockRepository.findByPiece(stock,user);
+    public StockDTO findByPiece(Integer id) {
+        return stockRepository.findByPiece(id);
     }
 
     public Stock createDonation(Stock stock) {

@@ -18,6 +18,7 @@ public final class StockMapper {
         stock.setCategoria(resultSet.getString("categoria"));
         stock.setImagem(resultSet.getString("imagem"));
         stock.setCategoriaDoItem(resultSet.getInt("td_categoria_id_categoria"));
+        stock.setId_item(resultSet.getInt("id_item"));
         return stock;
     }
 }

@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class StockDTO {
 
+    private Integer id_item; //
     private String item; // item_item
     private Integer quantidadeEstoque; // qtd_estoque_item
     private String categoria; // categoria

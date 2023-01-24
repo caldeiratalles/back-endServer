@@ -26,10 +26,9 @@ public class StockController {
         return stockService.findAllPieces();
     }
 
-    // TODO falta query
-    @GetMapping("/byPiece")
-    public Stock findByPiece(@RequestBody Stock stock, @RequestBody UserCreator user){
-        return stockService.findByPiece(stock, user);
+    @GetMapping("/byPiece/{id}")
+    public StockDTO findByPiece(@PathVariable Integer id){
+        return stockService.findByPiece(id);
     }
 
     @PostMapping("/createDonation")
