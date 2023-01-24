@@ -2,6 +2,7 @@ package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
 import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.StockDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,8 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    // TODO falta query
     @GetMapping("/allPiece")
-    public List<Stock> findAllPieces(){
+    public List<StockDTO> findAllPieces(){
         return stockService.findAllPieces();
     }
 

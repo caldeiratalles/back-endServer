@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.models.Stock;
 import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.StockDTO;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.StockRepository;
 import com.example.demo.repository.UserRepository;
@@ -23,7 +24,7 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    public List<Stock> findAllPieces() {
+    public List<StockDTO> findAllPieces() {
         return stockRepository.findAllPieces();
     }
 
