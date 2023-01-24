@@ -22,13 +22,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO findUser(UserDTO user) {
-        if(userRepository.findUser(user) == 0){
-            return null;
-        }
-        return user;
-    }
-
     public UserCreator createUser(UserCreator user) {
         LOGGER.info(user.toString());
         if(userRepository.createUser(user) == 0){
@@ -45,9 +38,11 @@ public class UserService {
     }
 
     public UserDTO login(UserDTO user) {
-        if(userRepository.login(user) == 0){
+
+        if(userRepository.login(user) == null){
             return null;
         }
+
         return user;
     }
 }

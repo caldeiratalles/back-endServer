@@ -2,10 +2,12 @@ package com.example.demo.repository;
 
 import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.UserDTO;
+import com.example.demo.repository.mapper.StockMapper;
 import com.example.demo.repository.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -25,25 +27,17 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int login(UserDTO user){
-        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
+    public UserDTO login(UserDTO user){
+
+        String sql = String.format("SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') ");
         try {
-            return 1;
+            return this.jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{},
+                    (rs, rowNum) -> UserMapper.userMapper(rs));
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
-            return 0;
-        }
-    }
-
-    public int findUser(UserDTO user){
-        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
-        try {
-            return 1;
-        } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel encontrar o usuario com o email: "+user.getUsername());
-            return 0;
+            return null;
         }
     }
 
