@@ -1,7 +1,8 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.User;
+import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -23,27 +24,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Optional<User> login(@RequestBody User user){
+    public Optional<UserCreator> login(@RequestBody UserDTO user){
         return userService.login(user);
     }
 
     @GetMapping("/findUser")
-    public Optional<User> findUser(@RequestBody User user){
+    public Optional<UserCreator> findUser(@RequestBody UserDTO user){
         return userService.findUser(user);
     }
 
     @PostMapping("/createUser")
-    public Optional<User> createUser(@RequestBody User user){
+    public UserCreator createUser(@RequestBody UserCreator user){
         return userService.createUser(user);
     }
 
-    @PostMapping("/donation")
-    public ResponseEntity requisitionDonation(@RequestBody User user, @RequestBody Stock stock){
+    @PostMapping("/requisitionDonation")
+    public Stock requisitionDonation(@RequestBody UserDTO user, @RequestBody Stock stock){
         return stockService.updatePiece(user,stock);
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity deleteUser(@RequestBody User user){
+    public ResponseEntity deleteUser(@RequestBody UserCreator user){
         return userService.deleteUser(user);
     }
 }

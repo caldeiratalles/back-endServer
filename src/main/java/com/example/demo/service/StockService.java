@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.User;
+import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.StockRepository;
-import com.example.demo.utils.Utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,6 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    private Utils utils;
-
     public StockService(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
@@ -27,21 +25,19 @@ public class StockService {
         return stockRepository.findAllPieces();
     }
 
-    public Optional<Stock> findByPiece(Stock stock, User user) {
+    public Stock findByPiece(Stock stock, UserCreator user) {
         return stockRepository.findByPiece(stock,user);
     }
 
-    public Optional<Stock> createDonation(Stock stock, User user) {
-        Optional<Stock> stockReturn = stockRepository.createDonation(stock,utils.criptografa(user));
-        return stockReturn;
+    public Stock createDonation(Stock stock, UserCreator user) {
+        return stockRepository.createDonation(stock,user);
     }
 
     @Transactional
-    public ResponseEntity updatePiece(User user, Stock stock) {
-        Integer status = stockRepository.updatePiece(stock,utils.criptografa(user));
-        if(status<0){
-            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
+    public Stock updatePiece(UserDTO user, Stock stock) {
+        if(stockRepository.requestDonation(stock,user) == 0){
+            return null;
         }
-        return new ResponseEntity<>(stock, HttpStatus.OK);
+        return stock;
     }
 }

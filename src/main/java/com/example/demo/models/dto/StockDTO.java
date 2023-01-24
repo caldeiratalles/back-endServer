@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.models.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Stock {
+public class StockDTO {
 
     private String item; // item_item
     private String descricao; // descricao_item

@@ -1,7 +1,7 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.User;
+import com.example.demo.models.UserCreator;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +28,12 @@ public class StockController {
     }
 
     @GetMapping("/byPiece")
-    public Optional<Stock> findByPiece(@RequestBody Stock stock, @RequestBody User user){
+    public Stock findByPiece(@RequestBody Stock stock, @RequestBody UserCreator user){
         return stockService.findByPiece(stock, user);
     }
 
-    @PostMapping
-    public Optional<Stock> createDonation(@RequestBody Stock stock, @RequestBody User user){
+    @PostMapping("/createDonation")
+    public Stock createDonation(@RequestBody Stock stock, @RequestBody UserCreator user){
         return stockService.createDonation(stock,user);
     }
 }

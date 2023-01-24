@@ -1,7 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.User;
+import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.mapper.StockMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,17 +25,17 @@ public class StockRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<Stock> createDonation(Stock stock, User user){
+    public Stock createDonation(Stock stock, UserCreator user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(
+            return this.jdbcTemplate.queryForObject(
                     "query",
                     sqlParametrosSelect,
-                    (rs, rowNum) -> StockMapper.stockMapper(rs)));
+                    (rs, rowNum) -> StockMapper.stockMapper(rs));
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel criar o stock com o email: "+user.getLogin()+" para o status de "+user.getStatus());
-            return Optional.empty();
+            LOGGER.error("Impossivel criar o stock com o email: "+user.getEmail());
+            return null;
         }
     }
 
@@ -47,16 +48,16 @@ public class StockRepository {
                     (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
-    public Optional<Stock> findByPiece(Stock stock, User user){
+    public Stock findByPiece(Stock stock, UserCreator user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
-        return Optional.ofNullable(this.jdbcTemplate.queryForObject(
+        return this.jdbcTemplate.queryForObject(
                 "query",
                 sqlParametrosSelect,
-                (rs, rowNum) -> StockMapper.stockMapper(rs)));
+                (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
-    public Integer updatePiece(Stock stock, User user){
+    public Integer requestDonation(Stock stock, UserDTO user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
         try {
@@ -64,7 +65,7 @@ public class StockRepository {
                     "query",
                     sqlParametrosSelect);
         } catch (EmptyResultDataAccessException ex) {
-            LOGGER.error("Impossivel atualizar a peca requisitada pelo user com o email: "+user.getLogin()+" para o status de "+user.getStatus());
+            LOGGER.error("Impossivel atualizar a peca requisitada pelo user com o email: "+user.getEmail());
         }
         return null;
     }
