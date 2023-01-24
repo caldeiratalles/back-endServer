@@ -22,11 +22,13 @@ public class StockController {
         this.userService = userService;
     }
 
+    // TODO falta query
     @GetMapping("/allPiece")
     public List<Stock> findAllPieces(){
         return stockService.findAllPieces();
     }
 
+    // TODO falta query
     @GetMapping("/byPiece")
     public Stock findByPiece(@RequestBody Stock stock, @RequestBody UserCreator user){
         return stockService.findByPiece(stock, user);

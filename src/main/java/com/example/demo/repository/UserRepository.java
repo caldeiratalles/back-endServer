@@ -6,8 +6,10 @@ import com.example.demo.repository.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -17,9 +19,9 @@ public class UserRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public UserRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -28,9 +30,7 @@ public class UserRepository {
         //sqlParametrosSelect.addValue("valor",bind);
         try {
             return Optional.ofNullable(this.jdbcTemplate.queryForObject(
-                    "query",
-                    sqlParametrosSelect,
-                    (rs, rowNum) -> UserMapper.userMapper(rs)));
+                    "query",UserCreator.class));
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getEmail());
             return Optional.empty();
@@ -43,8 +43,7 @@ public class UserRepository {
         try {
             return Optional.ofNullable(this.jdbcTemplate.queryForObject(
                     "query",
-                    sqlParametrosSelect,
-                    (rs, rowNum) -> UserMapper.userMapper(rs)));
+                    UserCreator.class));
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel encontrar o usuario com o email: "+user.getEmail());
             return Optional.empty();
@@ -61,29 +60,26 @@ public class UserRepository {
 
     public int createUser(UserCreator user) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        sqlParametrosSelect.addValue("loginUsuario",user.getUsername());
-        sqlParametrosSelect.addValue("senhaUsuario",user.getSenha());
-        sqlParametrosSelect.addValue("tipoUsuario",user.getTipoUsuario());
-        sqlParametrosSelect.addValue("nomeUsuario",user.getNome());
-        sqlParametrosSelect.addValue("cpfCnpj",user.getCpfCnpj());
-        sqlParametrosSelect.addValue("sexoId",user.getSexo());
-        sqlParametrosSelect.addValue("email",user.getEmail());
-        sqlParametrosSelect.addValue("tipoEmail",user.getTipoEmail());
-        sqlParametrosSelect.addValue("telefone",user.getTelefone());
-        sqlParametrosSelect.addValue("tipoTelefone",user.getTipoTelefone());
-        sqlParametrosSelect.addValue("cep",user.getCep());
-        sqlParametrosSelect.addValue("numeroEndereo",user.getNumeroEndereco());
-        sqlParametrosSelect.addValue("complemento",user.getComplementoEndereco());
-        sqlParametrosSelect.addValue("logradouro",user.getLogradouro());
-        sqlParametrosSelect.addValue("bairoo",user.getBairro());
-        sqlParametrosSelect.addValue("cidade",user.getCidade());
-        sqlParametrosSelect.addValue("estado",user.getEstado());
+        sqlParametrosSelect.addValue("login_usuario",user.getUsername());
+        sqlParametrosSelect.addValue("senha_usuario",user.getSenha());
+        sqlParametrosSelect.addValue("td_tipo_usuario_id_tipo_usuario_usuario",user.getTipoUsuario());
+        sqlParametrosSelect.addValue("nome_usuario",user.getNome());
+        sqlParametrosSelect.addValue("cpf_cnpj_usuario",user.getCpfCnpj());
+        sqlParametrosSelect.addValue("td_sexo_id_sexo_usuario",user.getSexo());
+        sqlParametrosSelect.addValue("email_usuario",user.getEmail());
+        sqlParametrosSelect.addValue("td_tipo_email_id_tipo_email_usuario",user.getTipoEmail());
+        sqlParametrosSelect.addValue("telefone_usuario",user.getTelefone());
+        sqlParametrosSelect.addValue("td_tipo_telefone_id_tipo_telefone_usuario",user.getTipoTelefone());
+        sqlParametrosSelect.addValue("cep_endereco_usuario",user.getCep());
+        sqlParametrosSelect.addValue("numero_endereco_usuario",user.getNumeroEndereco());
+        sqlParametrosSelect.addValue("complemento_endereco_usuario",user.getComplementoEndereco());
+        sqlParametrosSelect.addValue("logradouro_usuario",user.getLogradouro());
+        sqlParametrosSelect.addValue("bairro_usuario",user.getBairro());
+        sqlParametrosSelect.addValue("cidade_usuario",user.getCidade());
+        sqlParametrosSelect.addValue("estado_usuario",user.getEstado());
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("sp_cria_usuario_completo");
         try {
-            return this.jdbcTemplate.update(
-                    "call sp_cria_usuario_completo (:loginUsuario,:senhaUsuario,:tipoUsuario," +
-                            ":nomeUsuario,:cpfCnpj,:sexoId,:email,:tipoEmail,:telefone,:tipoTelefone,:cep,:numeroEndereo,:complemento" +
-                            " ,:logradouro,:bairoo,:cidade,:estado,@saida)",
-                    sqlParametrosSelect);
+            return (int) simpleJdbcCall.execute(sqlParametrosSelect).get("saida");
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getEmail());
             return 0;

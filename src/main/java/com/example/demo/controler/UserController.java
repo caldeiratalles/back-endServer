@@ -23,11 +23,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    // TODO falta query
     @PostMapping("/login")
     public Optional<UserCreator> login(@RequestBody UserDTO user){
         return userService.login(user);
     }
 
+    // TODO falta query
     @GetMapping("/findUser")
     public Optional<UserCreator> findUser(@RequestBody UserDTO user){
         return userService.findUser(user);
@@ -43,6 +45,7 @@ public class UserController {
         return stockService.updatePiece(user,stock);
     }
 
+    // TODO falta query
     @DeleteMapping("/deleteUser")
     public ResponseEntity deleteUser(@RequestBody UserCreator user){
         return userService.deleteUser(user);
