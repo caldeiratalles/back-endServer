@@ -25,13 +25,13 @@ public class UserController {
 
     // TODO falta query
     @PostMapping("/login")
-    public Optional<UserCreator> login(@RequestBody UserDTO user){
+    public UserDTO login(@RequestBody UserDTO user){
         return userService.login(user);
     }
 
     // TODO falta query
     @GetMapping("/findUser")
-    public Optional<UserCreator> findUser(@RequestBody UserDTO user){
+    public UserDTO findUser(@RequestBody UserDTO user){
         return userService.findUser(user);
     }
 
@@ -42,7 +42,7 @@ public class UserController {
 
     // TODO falta query
     @DeleteMapping("/deleteUser")
-    public ResponseEntity deleteUser(@RequestBody UserCreator user){
+    public UserCreator deleteUser(@RequestBody UserCreator user){
         return userService.deleteUser(user);
     }
 }

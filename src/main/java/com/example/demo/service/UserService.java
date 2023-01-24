@@ -22,8 +22,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<UserCreator> findUser(UserDTO user) {
-        return userRepository.findUser(user);
+    public UserDTO findUser(UserDTO user) {
+        if(userRepository.findUser(user) == 0){
+            return null;
+        }
+        return user;
     }
 
     public UserCreator createUser(UserCreator user) {
@@ -34,15 +37,17 @@ public class UserService {
         return user;
     }
 
-    public ResponseEntity deleteUser(UserCreator user) {
-        Integer status = userRepository.deleteUser(user);
-        if(status<0){
-            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
+    public UserCreator deleteUser(UserCreator user) {
+        if(userRepository.deleteUser(user) == 0){
+            return null;
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return user;
     }
 
-    public Optional<UserCreator> login(UserDTO user) {
-        return userRepository.login(user);
+    public UserDTO login(UserDTO user) {
+        if(userRepository.login(user) == 0){
+            return null;
+        }
+        return user;
     }
 }

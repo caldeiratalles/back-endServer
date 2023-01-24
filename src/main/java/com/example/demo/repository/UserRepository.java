@@ -25,28 +25,25 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<UserCreator> login(UserDTO user){
+    public int login(UserDTO user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(
-                    "query",UserCreator.class));
+            return 1;
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
-            return Optional.empty();
+            return 0;
         }
     }
 
-    public Optional<UserCreator> findUser(UserDTO user){
+    public int findUser(UserDTO user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         //sqlParametrosSelect.addValue("valor",bind);
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(
-                    "query",
-                    UserCreator.class));
+            return 1;
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel encontrar o usuario com o email: "+user.getUsername());
-            return Optional.empty();
+            return 0;
         }
     }
 
