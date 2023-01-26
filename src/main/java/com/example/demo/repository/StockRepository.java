@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.models.Stock;
 import com.example.demo.models.dto.CategoriaItemDTO;
+import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.repository.mapper.StockMapper;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class StockRepository {
         String sql = String.format("SELECT *\n" +
                 "FROM tb_item ti\n" +
                 "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria\n" +
-                "WHERE ti.id_item = %1$s ", id_item);
+                "WHERE ti.id_item = %1$s AND ti.ativo = 1", id_item);
         return this.jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{},
@@ -87,9 +88,18 @@ public class StockRepository {
         }
     }
 
-    public List<CategoriaItemDTO> findCategorias() {
+    public List<CategoriasItemDTO> findCategorias() {
         return this.jdbcTemplate.query(
                 "SELECT * FROM td_categoria",
+                new BeanPropertyRowMapper<>(CategoriasItemDTO.class));
+    }
+
+    public List<CategoriaItemDTO> findCategoriabyPiece(Integer id) {
+        return this.jdbcTemplate.query(
+                "SELECT *\n" +
+                        "FROM tb_item ti\n" +
+                        "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria\n" +
+                        "WHERE  tc.id_categoria = "+id+" AND ti.ativo = 1",
                 new BeanPropertyRowMapper<>(CategoriaItemDTO.class));
     }
 }

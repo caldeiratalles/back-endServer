@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.models.Stock;
 import com.example.demo.models.dto.CategoriaItemDTO;
+import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.repository.StockRepository;
 import org.slf4j.Logger;
@@ -45,7 +46,11 @@ public class StockService {
         return stock;
     }
 
-    public List<CategoriaItemDTO> categoriaItem() {
+    public List<CategoriasItemDTO> categoriaItem() {
         return stockRepository.findCategorias();
+    }
+
+    public List<CategoriaItemDTO> findCategoriabyPiece(Integer id) {
+        return stockRepository.findCategoriabyPiece(id);
     }
 }

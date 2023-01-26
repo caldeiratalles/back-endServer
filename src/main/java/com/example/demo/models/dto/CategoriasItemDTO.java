@@ -9,11 +9,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class CategoriaItemDTO {
+public class CategoriasItemDTO {
 
-    private String item;
-    private Integer id_item;
-    private String descricao;
-    private Integer qtd_estoque;
-    private String imagem;
+    private Integer id_categoria;
+    private String categoria;
 }

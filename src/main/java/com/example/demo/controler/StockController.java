@@ -2,6 +2,7 @@ package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
 import com.example.demo.models.dto.CategoriaItemDTO;
+import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.service.StockService;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,13 @@ public class StockController {
     }
 
     @GetMapping("/categoria")
-    public List<CategoriaItemDTO> findCategoria(){
+    public List<CategoriasItemDTO> findCategoria(){
         return stockService.categoriaItem();
+    }
+
+    @GetMapping("/byPieceCategoria/{id}")
+    public List<CategoriaItemDTO> findCategoriabyPiece(@PathVariable Integer id){
+        return stockService.findCategoriabyPiece(id);
     }
 
     @PostMapping("/createDonation")

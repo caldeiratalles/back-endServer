@@ -24,7 +24,7 @@ public class UserRepository {
 
     public UserDTO login(UserDTO user){
 
-        String sql = String.format("SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') ");
+        String sql = String.format("SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') AND tb_usuario.ativo = 1 ");
         try {
             return this.jdbcTemplate.queryForObject(
                     sql,
