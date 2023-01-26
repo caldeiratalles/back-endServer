@@ -1,6 +1,5 @@
 package com.example.demo.repository.mapper;
 
-import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.UserDTO;
 
 import java.sql.ResultSet;

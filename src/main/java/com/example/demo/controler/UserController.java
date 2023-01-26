@@ -1,14 +1,10 @@
 package com.example.demo.controler;
 
-import com.example.demo.models.Stock;
 import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/userStock")

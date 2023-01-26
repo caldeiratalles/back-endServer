@@ -1,6 +1,6 @@
 package com.example.demo.repository.mapper;
 
-import com.example.demo.models.Stock;
+import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.StockDTO;
 
 import java.sql.ResultSet;

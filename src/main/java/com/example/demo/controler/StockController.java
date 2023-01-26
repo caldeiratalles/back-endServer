@@ -1,14 +1,12 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.service.StockService;
-import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/stock")
@@ -29,6 +27,11 @@ public class StockController {
     @GetMapping("/byPiece/{id}")
     public StockDTO findByPiece(@PathVariable Integer id){
         return stockService.findByPiece(id);
+    }
+
+    @GetMapping("/categoria")
+    public List<CategoriaItemDTO> findCategoria(){
+        return stockService.categoriaItem();
     }
 
     @PostMapping("/createDonation")

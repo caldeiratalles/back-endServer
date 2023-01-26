@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.repository.mapper.StockMapper;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
@@ -86,5 +85,11 @@ public class StockRepository {
             LOGGER.error("Impossivel fazer a doação no estoque: "+stock.getItem() + "com a descrição: "+stock.getDescricao());
             return 0;
         }
+    }
+
+    public List<CategoriaItemDTO> findCategorias() {
+        return this.jdbcTemplate.query(
+                "SELECT * FROM td_categoria",
+                new BeanPropertyRowMapper<>(CategoriaItemDTO.class));
     }
 }
