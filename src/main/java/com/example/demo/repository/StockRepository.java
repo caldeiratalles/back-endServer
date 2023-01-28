@@ -102,4 +102,12 @@ public class StockRepository {
                         "WHERE  tc.id_categoria = "+id+" AND ti.ativo = 1",
                 new BeanPropertyRowMapper<>(CategoriaItemDTO.class));
     }
+
+    public int deletePeca(Integer id) {
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("id",id);
+        return this.jdbcTemplate.update(
+                "UPDATE tb_item SET ativo = 0 WHERE id_item = :id",
+                sqlParametrosSelect);
+    }
 }

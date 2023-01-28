@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.models.Stock;
+import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
@@ -52,5 +53,12 @@ public class StockService {
 
     public List<CategoriaItemDTO> findCategoriabyPiece(Integer id) {
         return stockRepository.findCategoriabyPiece(id);
+    }
+
+    public Integer deletePeca(Integer id) {
+        if(stockRepository.deletePeca(id) == 0){
+            return null;
+        }
+        return id;
     }
 }

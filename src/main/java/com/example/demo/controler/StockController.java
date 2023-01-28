@@ -1,6 +1,7 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
+import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
@@ -47,5 +48,10 @@ public class StockController {
     @PostMapping("/requestDonation")
     public Stock requestDonation(@RequestBody Stock stock){
         return stockService.requestDonation(stock);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Integer deletepeca(@PathVariable Integer id){
+        return stockService.deletePeca(id);
     }
 }
