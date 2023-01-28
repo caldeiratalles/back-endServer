@@ -28,7 +28,6 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    // TODO falta query
     @DeleteMapping("/deleteUser")
     public UserCreator deleteUser(@RequestBody UserCreator user){
         return userService.deleteUser(user);

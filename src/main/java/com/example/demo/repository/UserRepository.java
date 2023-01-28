@@ -38,9 +38,9 @@ public class UserRepository {
 
     public int deleteUser(UserCreator user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        //sqlParametrosSelect.addValue("valor",bind);
+        sqlParametrosSelect.addValue("username",user.getUsername());
         return this.jdbcTemplate.update(
-                    "query",
+                    "UPDATE tb_usuario SET ativo = 0 WHERE login = :username",
                     sqlParametrosSelect);
     }
 
