@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class StockRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     public int createDonation(Stock stock){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("item_item",stock.getItem());
@@ -47,6 +49,7 @@ public class StockRepository {
         }
     }
 
+
     public List<StockDTO> findAllPieces(){
             return this.jdbcTemplate.query(
                     "SELECT * \n" +
@@ -67,6 +70,7 @@ public class StockRepository {
                 (rs, rowNum) -> StockMapper.stockMapper(rs));
     }
 
+    @Transactional
     public Integer requestDonation(Stock stock){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("item_item",stock.getItem());

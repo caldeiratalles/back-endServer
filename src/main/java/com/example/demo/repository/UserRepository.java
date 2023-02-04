@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserRepository {
@@ -36,6 +37,7 @@ public class UserRepository {
         }
     }
 
+    @Transactional
     public int deleteUser(UserCreator user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("username",user.getUsername());
@@ -44,6 +46,7 @@ public class UserRepository {
                     sqlParametrosSelect);
     }
 
+    @Transactional
     public int createUser(UserCreator user) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("login_usuario",user.getUsername());
