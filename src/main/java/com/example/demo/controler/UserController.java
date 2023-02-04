@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public UserDTO login(@RequestBody UserDTO user){
         return userService.login(user);
     }
