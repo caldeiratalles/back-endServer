@@ -8,6 +8,8 @@ import com.example.demo.models.dto.StockDTO;
 import com.example.demo.repository.StockRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,42 +25,45 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    public List<StockDTO> findAllPieces() {
-        return stockRepository.findAllPieces();
+    public ResponseEntity<List<StockDTO>> findAllPieces() {
+        return new ResponseEntity<>(stockRepository.findAllPieces(), HttpStatus.OK);
     }
 
-    public StockDTO findByPiece(Integer id) {
-        return stockRepository.findByPiece(id);
+    public ResponseEntity<StockDTO> findByPiece(Integer id) {
+        return new ResponseEntity<>(stockRepository.findByPiece(id), HttpStatus.OK);
     }
 
-    public Stock createDonation(Stock stock) {
+    public ResponseEntity<Stock> createDonation(Stock stock) {
         LOGGER.info(stock.toString());
         if(stockRepository.createDonation(stock) == 0){
-            return null;
+            LOGGER.info("Impossivel fazer doação");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return stock;
+        return new ResponseEntity<>(stock, HttpStatus.OK);
     }
 
-    public Stock requestDonation(Stock stock) {
+    public ResponseEntity<Stock> requestDonation(Stock stock) {
         LOGGER.info(stock.toString());
         if(stockRepository.requestDonation(stock) == 0){
-            return null;
+            LOGGER.info("Impossivel fazer requisição da doação");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return stock;
+        return new ResponseEntity<>(stock, HttpStatus.OK);
     }
 
-    public List<CategoriasItemDTO> categoriaItem() {
-        return stockRepository.findCategorias();
+    public ResponseEntity<List<CategoriasItemDTO>> categoriaItem() {
+        return new ResponseEntity<>(stockRepository.findCategorias(), HttpStatus.OK);
     }
 
-    public List<CategoriaItemDTO> findCategoriabyPiece(Integer id) {
-        return stockRepository.findCategoriabyPiece(id);
+    public ResponseEntity<List<CategoriaItemDTO>> findCategoriabyPiece(Integer id) {
+        return new ResponseEntity<>(stockRepository.findCategoriabyPiece(id), HttpStatus.OK);
     }
 
-    public Integer deletePeca(Integer id) {
+    public ResponseEntity<Integer> deletePeca(Integer id) {
         if(stockRepository.deletePeca(id) == 0){
-            return null;
+            LOGGER.info("Impossivel fazer deleção da peça");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return id;
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

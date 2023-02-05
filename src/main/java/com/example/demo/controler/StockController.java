@@ -1,11 +1,11 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
 import com.example.demo.service.StockService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,37 +21,37 @@ public class StockController {
     }
 
     @GetMapping("/allPiece")
-    public List<StockDTO> findAllPieces(){
+    public ResponseEntity<List<StockDTO>> findAllPieces(){
         return stockService.findAllPieces();
     }
 
     @GetMapping("/byPiece/{id}")
-    public StockDTO findByPiece(@PathVariable Integer id){
+    public ResponseEntity<StockDTO> findByPiece(@PathVariable Integer id){
         return stockService.findByPiece(id);
     }
 
     @GetMapping("/categoria")
-    public List<CategoriasItemDTO> findCategoria(){
+    public ResponseEntity<List<CategoriasItemDTO>> findCategoria(){
         return stockService.categoriaItem();
     }
 
     @GetMapping("/byPieceCategoria/{id}")
-    public List<CategoriaItemDTO> findCategoriabyPiece(@PathVariable Integer id){
+    public ResponseEntity<List<CategoriaItemDTO>> findCategoriabyPiece(@PathVariable Integer id){
         return stockService.findCategoriabyPiece(id);
     }
 
     @PostMapping("/createDonation")
-    public Stock createDonation(@RequestBody Stock stock){
+    public ResponseEntity<Stock> createDonation(@RequestBody Stock stock){
         return stockService.createDonation(stock);
     }
 
     @PostMapping("/requestDonation")
-    public Stock requestDonation(@RequestBody Stock stock){
-        return stockService.requestDonation(stock);
+    public ResponseEntity<Stock> requestDonation(@RequestBody Stock stock){
+         return stockService.requestDonation(stock);
     }
 
     @DeleteMapping("/delete/{id}")
-    public Integer deletepeca(@PathVariable Integer id){
-        return stockService.deletePeca(id);
+    public void deletepeca(@PathVariable Integer id){
+        stockService.deletePeca(id);
     }
 }

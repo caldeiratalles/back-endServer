@@ -4,6 +4,7 @@ import com.example.demo.models.UserCreator;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,17 +20,17 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public UserDTO login(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO user){
         return userService.login(user);
     }
 
     @PostMapping("/createUser")
-    public UserCreator createUser(@RequestBody UserCreator user){
+    public ResponseEntity<UserCreator> createUser(@RequestBody UserCreator user){
         return userService.createUser(user);
     }
 
     @DeleteMapping("/deleteUser")
-    public UserCreator deleteUser(@RequestBody UserCreator user){
+    public ResponseEntity<UserCreator> deleteUser(@RequestBody UserCreator user){
         return userService.deleteUser(user);
     }
 }

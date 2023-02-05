@@ -5,6 +5,8 @@ import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,27 +20,27 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserCreator createUser(UserCreator user) {
+    public ResponseEntity<UserCreator> createUser(UserCreator user) {
         LOGGER.info(user.toString());
         if(userRepository.createUser(user) == 0){
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public UserCreator deleteUser(UserCreator user) {
+    public ResponseEntity<UserCreator> deleteUser(UserCreator user) {
+        LOGGER.info(user.toString());
         if(userRepository.deleteUser(user) == 0){
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public UserDTO login(UserDTO user) {
+    public ResponseEntity<UserDTO> login(UserDTO user) {
 
         if(userRepository.login(user) == null){
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
