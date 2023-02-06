@@ -44,10 +44,6 @@ public class UserRepository {
         }
     }
 
-    public Integer findUser(UserDTO userDTO){
-        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario where login = '"+userDTO.getUsername()+"'" ,new BeanPropertyRowMapper<>(Integer.class));
-    }
-
     @Transactional
     public int deleteUser(UserCreator user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
@@ -90,12 +86,9 @@ public class UserRepository {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("senhaNova",user.getSenhaNova());
         sqlParametrosSelect.addValue("username",user.getUsername());
-        return this.jdbcTemplate.update(
-                "UPDATE tb_usuario SET senha = :senhaNova WHERE login = :username",
+        sqlParametrosSelect.addValue("senha",user.getSenha());
+        return this.namedParameterJdbcTemplate.update(
+                "UPDATE tb_usuario SET senha = md5(:senhaNova) WHERE login = :username AND senha = md5(:senha)",
                 sqlParametrosSelect);
-    }
-
-    public int validar(UserChangeSenha user) {
-        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') AND tb_usuario.ativo = 1 ",new BeanPropertyRowMapper<>(Integer.class));
     }
 }

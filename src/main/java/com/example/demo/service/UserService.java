@@ -49,9 +49,9 @@ public class UserService {
     }
 
     public ResponseEntity<UserChangeSenha> changeSenha(UserChangeSenha user) throws Exception {
-        if(userRepository.validar(user) != 1){
-            userRepository.trocarSenha(user);
-        }
+        if(userRepository.trocarSenha(user) == 1){
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        };
         throw new Exception("Ocorreu um erro");
     }
 }
