@@ -63,7 +63,7 @@ public class StockRepository {
                     "SELECT id_item,item,descricao,qtd_estoque,imagem,categoria " +
                         "FROM tb_item ti INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
                         "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
-                        "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
+                        "RIGHT JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
                         "WHERE ti.ativo = 1 AND tu.login = :login_usuario", sqlParametrosSelect,
                     new BeanPropertyRowMapper<>(StockSimple.class));
     }
