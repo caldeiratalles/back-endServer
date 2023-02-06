@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.UserCreator;
-import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.UserChangeSenha;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.mapper.UserMapper;

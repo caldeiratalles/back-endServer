@@ -21,7 +21,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<UserCreator> createUser(UserCreator user) {
+    public ResponseEntity<UserCreator> createUser(UserCreator user) throws Exception {
         LOGGER.info(user.toString());
         if(userRepository.createUser(user) == 0){
             throw new Exception("Usuario já existe");
@@ -29,7 +29,7 @@ public class UserService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public ResponseEntity<UserCreator> deleteUser(UserCreator user) {
+    public ResponseEntity<UserCreator> deleteUser(UserCreator user) throws Exception {
         LOGGER.info(user.toString());
         if(userRepository.deleteUser(user) == 0){
             throw new Exception("Usuario nao cadastrado ou nao existe");
@@ -37,7 +37,7 @@ public class UserService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public ResponseEntity<UserDTO> login(UserDTO user) {
+    public ResponseEntity<UserDTO> login(UserDTO user) throws Exception {
 
         if(userRepository.findUser(user) == 0 && userRepository.login(user) != null){
             throw new Exception("Senha incorreta");
@@ -45,7 +45,7 @@ public class UserService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public ResponseEntity<UserChangeSenha> changeSenha(UserChangeSenha user) {
+    public ResponseEntity<UserChangeSenha> changeSenha(UserChangeSenha user) throws Exception {
         if(userRepository.validar(user) != 1){
             userRepository.trocarSenha(user);
         }

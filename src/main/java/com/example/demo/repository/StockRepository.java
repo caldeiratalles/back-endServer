@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.Stock;
+import com.example.demo.models.StockSimple;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
@@ -51,13 +52,16 @@ public class StockRepository {
     }
 
 
-    public List<Stock> findAllPieces(UserDTO userDTO){
-            return this.jdbcTemplate.query(
-                    "SELECT * \n" +
-                            "FROM tb_item ti\n" +
-                            "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
-                            "WHERE  ti.ativo = 1 AND tb_usuario.login = '"+userDTO.getUsername()+"'",
-                    new BeanPropertyRowMapper<>(Stock.class));
+    public List<StockSimple> findAllPieces(UserDTO userDTO){
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
+        return this.jdbcTemplate.query(
+                    "SELECT id_item,item,descricao,qtd_estoque,imagem,categoria " +
+                        "FROM tb_item ti INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
+                        "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
+                        "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
+                        "WHERE ti.ativo = 1 AND tu.login = :login_usuario",
+                    new BeanPropertyRowMapper<>(StockSimple.class));
     }
 
     public StockDTO findByPiece(Integer id_item,UserDTO userDTO){
@@ -116,6 +120,16 @@ public class StockRepository {
                 sqlParametrosSelect);
     }
 
-    public void editarPeca(Stock stock) {
+    public int editarPeca(StockSimple stock, Integer id) {
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("quantidade", stock.getQtd_estoque());
+        sqlParametrosSelect.addValue("nomeItem", stock.getItem());
+        sqlParametrosSelect.addValue("img", stock.getImagem());
+        sqlParametrosSelect.addValue("id",id);
+        return this.jdbcTemplate.update(
+                "UPDATE tb_item SET" +
+                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  " +
+                    "WHERE id_item=:id AND qtd_estoque >= :quantidade",
+                sqlParametrosSelect);
     }
 }

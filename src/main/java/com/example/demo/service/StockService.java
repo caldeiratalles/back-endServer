@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.models.Stock;
-import com.example.demo.models.UserCreator;
+import com.example.demo.models.StockSimple;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
@@ -26,7 +26,7 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    public ResponseEntity<List<Stock>> findAllPieces(UserDTO userDTO) {
+    public ResponseEntity<List<StockSimple>> findAllPieces(UserDTO userDTO) {
         return new ResponseEntity<>(stockRepository.findAllPieces(userDTO), HttpStatus.OK);
     }
 
@@ -66,7 +66,7 @@ public class StockService {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    public Stock editarPeca(Stock stock) {
-        stockRepository.editarPeca(stock);
+    public void editarPeca(StockSimple stock, Integer id) {
+        stockRepository.editarPeca(stock,id);
     }
 }

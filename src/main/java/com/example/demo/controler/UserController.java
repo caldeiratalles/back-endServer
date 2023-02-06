@@ -21,22 +21,22 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO user) throws Exception {
         return userService.login(user);
     }
 
     @PostMapping("/createUser")
-    public void createUser(@RequestBody UserCreator user){
+    public void createUser(@RequestBody UserCreator user) throws Exception {
         userService.createUser(user);
     }
 
     @PutMapping("/trocarSenha")
-    public void changeSenha(@RequestBody UserChangeSenha user){
+    public void changeSenha(@RequestBody UserChangeSenha user) throws Exception {
         userService.changeSenha(user);
     }
 
     @DeleteMapping("/deleteUser")
-    public void deleteUser(@RequestBody UserCreator user){
+    public void deleteUser(@RequestBody UserCreator user) throws Exception {
         userService.deleteUser(user);
     }
 }
