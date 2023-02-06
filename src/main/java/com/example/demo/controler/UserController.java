@@ -27,7 +27,7 @@ public class UserController {
         userService.createUser(user);
     }
 
-    @PutMapping("/trocarSenha")
+    @PutMapping("/changePassword")
     public void changeSenha(@RequestBody UserChangeSenha user) throws Exception {
         userService.changeSenha(user);
     }

@@ -19,7 +19,7 @@ public class StockController {
     }
 
     @GetMapping("/allPiece")
-    public List<StockSimple>  findAllPieces(@RequestBody UserDTO userDTO){
+    public List<StockSimple> findAllPieces(@RequestBody UserDTO userDTO){
         return stockService.findAllPieces(userDTO).getBody();
     }
 
