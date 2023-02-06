@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +22,21 @@ public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UserRepository(JdbcTemplate jdbcTemplate) {
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public UserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public UserDTO login(UserDTO user){
-
-        String sql = String.format("SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') AND tb_usuario.ativo = 1 ");
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("user",user.getUsername());
+        sqlParametrosSelect.addValue("senha",user.getSenha());
         try {
-            return this.jdbcTemplate.queryForObject(
-                    sql,
-                    new Object[]{},
+            return this.namedParameterJdbcTemplate.queryForObject(
+                    "SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = :user AND tb_usuario.senha = md5(:senha) AND tb_usuario.ativo = 1 ",
+                    sqlParametrosSelect,
                     (rs, rowNum) -> UserMapper.userMapper(rs));
         } catch (EmptyResultDataAccessException ex) {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
