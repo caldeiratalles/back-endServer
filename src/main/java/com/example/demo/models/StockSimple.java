@@ -11,10 +11,10 @@ import lombok.ToString;
 @ToString
 public class StockSimple {
 
-    private String id_item;
+    private Integer id_item;
     private String item;
-    private Integer descricao;
-    private String qtd_estoque;
-    private Integer imagem;
+    private String descricao;
+    private Integer qtd_estoque;
+    private String imagem;
     private String categoria;
 }

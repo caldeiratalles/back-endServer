@@ -5,7 +5,6 @@ import com.example.demo.models.dto.UserChangeSenha;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +20,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO user) throws Exception {
-        return userService.login(user);
+    public UserDTO login(@RequestBody UserDTO user) throws Exception {
+        return userService.login(user).getBody();
     }
 
     @PostMapping("/createUser")

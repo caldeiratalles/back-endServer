@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +27,10 @@ public class StockRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(StockRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
-    public StockRepository(JdbcTemplate jdbcTemplate) {
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    public StockRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Transactional
@@ -55,12 +59,12 @@ public class StockRepository {
     public List<StockSimple> findAllPieces(UserDTO userDTO){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
-        return this.jdbcTemplate.query(
+        return this.namedParameterJdbcTemplate.query(
                     "SELECT id_item,item,descricao,qtd_estoque,imagem,categoria " +
                         "FROM tb_item ti INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
                         "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
                         "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
-                        "WHERE ti.ativo = 1 AND tu.login = :login_usuario",
+                        "WHERE ti.ativo = 1 AND tu.login = :login_usuario", sqlParametrosSelect,
                     new BeanPropertyRowMapper<>(StockSimple.class));
     }
 

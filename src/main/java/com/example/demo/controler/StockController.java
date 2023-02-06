@@ -29,13 +29,13 @@ public class StockController {
     }
 
     @PostMapping("/createDonation")
-    public Stock createDonation(@RequestBody Stock stock) throws Exception {
-        return stockService.createDonation(stock).getBody();
+    public void createDonation(@RequestBody Stock stock) throws Exception {
+        stockService.createDonation(stock).getBody();
     }
 
     @PostMapping("/requestDonation")
-    public Stock requestDonation(@RequestBody Stock stock) throws Exception {
-        return stockService.requestDonation(stock).getBody();
+    public void requestDonation(@RequestBody Stock stock) throws Exception {
+        stockService.requestDonation(stock).getBody();
     }
 
     @DeleteMapping("/delete/{id}")
