@@ -63,7 +63,7 @@ public class StockRepository {
                     "SELECT id_item,item,descricao,qtd_estoque,imagem,categoria " +
                         "FROM tb_item ti INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
                         "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
-                        "RIGHT JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
+                        "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
                         "WHERE tu.ativo = 1 AND ti.ativo = 1 AND tu.login = :login_usuario", sqlParametrosSelect,
                     new BeanPropertyRowMapper<>(StockSimple.class));
     }
@@ -124,12 +124,12 @@ public class StockRepository {
                 sqlParametrosSelect);
     }
 
-    public int editarPeca(StockSimple stock) {
+    public int editarPeca(StockSimple stock, Integer id) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("quantidade", stock.getQtd_estoque());
         sqlParametrosSelect.addValue("nomeItem", stock.getItem());
         sqlParametrosSelect.addValue("img", stock.getImagem());
-        sqlParametrosSelect.addValue("id",stock.getId_item());
+        sqlParametrosSelect.addValue("id",id);
         sqlParametrosSelect.addValue("categoria",stock.getCategoria());
         sqlParametrosSelect.addValue("descricao",stock.getDescricao());
         return this.namedParameterJdbcTemplate.update(

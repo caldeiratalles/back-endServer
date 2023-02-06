@@ -66,7 +66,7 @@ public class StockService {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    public void editarPeca(StockSimple stock) {
-        stockRepository.editarPeca(stock);
+    public void editarPeca(StockSimple stock, Integer id) {
+        stockRepository.editarPeca(stock,id);
     }
 }

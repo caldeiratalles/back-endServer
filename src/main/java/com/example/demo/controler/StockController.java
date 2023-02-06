@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stock")
+@CrossOrigin("http://localhost:3001")
 public class StockController {
 
     private final StockService stockService;
@@ -23,9 +24,9 @@ public class StockController {
         return stockService.findAllPieces(userDTO).getBody();
     }
 
-    @PutMapping("/editar")
-    public void editarRequest(@RequestBody StockSimple stock){
-        stockService.editarPeca(stock);
+    @PutMapping("/editar/{id}")
+    public void editarRequest(@RequestBody StockSimple stock, @PathVariable Integer id){
+        stockService.editarPeca(stock,id);
     }
 
     @PostMapping("/createDonation")
