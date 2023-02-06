@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -21,6 +22,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public ResponseEntity<UserCreator> createUser(UserCreator user) throws Exception {
         LOGGER.info(user.toString());
         if(userRepository.createUser(user) == 0){
