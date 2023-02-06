@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/userStock")
 public class UserController {
 
-    private final StockService stockService;
     private final UserService userService;
 
-    public UserController(StockService stockService, UserService userService) {
-        this.stockService = stockService;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
