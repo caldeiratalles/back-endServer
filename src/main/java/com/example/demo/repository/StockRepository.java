@@ -54,37 +54,6 @@ public class StockRepository {
             return 0;
         }
     }
-
-
-    public List<StockSimple> findAllPieces(UserDTO userDTO){
-        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
-        return this.namedParameterJdbcTemplate.query(
-                    "    select DISTINCT  i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, c.categoria\n" +
-                            "    from tb_item i\n" +
-                            "    inner join ta_recebe tr  on i.id_item = tr.tb_item_id_item\n" +
-                            "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
-                            "    inner join tb_usuario u on u.id_usuario = tr.tb_usuario_id_usuario\n" +
-                            "    where u.login = :login_usuario and i.ativo = 1 and u.ativo = 1", sqlParametrosSelect,
-                    new BeanPropertyRowMapper<>(StockSimple.class));
-    }
-
-    public StockSimple findByPiece(Integer id_item,UserDTO userDTO){
-        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
-        sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
-        sqlParametrosSelect.addValue("id_item",id_item);
-
-        return this.namedParameterJdbcTemplate.queryForObject(
-                "    select DISTINCT  i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, c.categoria\n" +
-                        "    from tb_item i\n" +
-                        "    inner join ta_recebe tr  on i.id_item = tr.tb_item_id_item\n" +
-                        "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
-                        "    inner join tb_usuario u on u.id_usuario = tr.tb_usuario_id_usuario\n" +
-                        "    where u.login = :login_usuario and i.ativo = 1 and u.ativo = 1 and i.id_item = :id_item",
-                sqlParametrosSelect,
-                new BeanPropertyRowMapper<>(StockSimple.class));
-    }
-
     @Transactional
     public Integer requestDonation(Stock stock){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
@@ -106,6 +75,31 @@ public class StockRepository {
             return 0;
         }
     }
+
+
+    public List<StockSimple> findAllPieces(){
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        return this.namedParameterJdbcTemplate.query(
+                    "    select i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, i.td_categoria_id_categoria\n" +
+                            "    from tb_item i\n" +
+                            "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
+                            "    where i.ativo = 1", sqlParametrosSelect,
+                    new BeanPropertyRowMapper<>(StockSimple.class));
+    }
+
+    public StockSimple findByPiece(Integer id_item){
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("id_item",id_item);
+
+        return this.namedParameterJdbcTemplate.queryForObject(
+                "    select  i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, i.td_categoria_id_categoria\n" +
+                        "    from tb_item i\n" +
+                        "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
+                        "    where i.ativo = 1 and i.id_item = :id_item",
+                sqlParametrosSelect,
+                new BeanPropertyRowMapper<>(StockSimple.class));
+    }
+
 
     public List<CategoriasItemDTO> findCategorias() {
         return this.jdbcTemplate.query(
@@ -137,9 +131,10 @@ public class StockRepository {
         sqlParametrosSelect.addValue("img", stock.getImagem());
         sqlParametrosSelect.addValue("id",stock.getId_item());
         sqlParametrosSelect.addValue("descricao",stock.getDescricao());
+        sqlParametrosSelect.addValue("td_categoria_id_categoria",stock.getTd_categoria_id_categoria());
         return this.namedParameterJdbcTemplate.update(
                 "UPDATE tb_item SET" +
-                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  , ativo = 1, descricao = :descricao " +
+                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  , ativo = 1, descricao = :descricao, td_categoria_id_categoria = :td_categoria_id_categoria " +
                     "WHERE id_item=:id",
                 sqlParametrosSelect);
     }

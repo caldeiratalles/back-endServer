@@ -19,9 +19,9 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @PostMapping("/allPiece")
-    public List<StockSimple> findAllPieces(@RequestBody UserDTO userDTO){
-        return stockService.findAllPieces(userDTO).getBody();
+    @GetMapping("/allPiece")
+    public List<StockSimple> findAllPieces(){
+        return stockService.findAllPieces().getBody();
     }
 
     @PutMapping("/editar")
@@ -29,8 +29,8 @@ public class StockController {
         stockService.editarPeca(stock);
     }
     @PostMapping("/byPiece/{id}")
-    public StockSimple findByPiece(@PathVariable Integer id,@RequestBody UserDTO userDTO){
-        return stockService.findByPiece(id,userDTO).getBody();
+    public StockSimple findByPiece(@PathVariable Integer id){
+        return stockService.findByPiece(id).getBody();
     }
     @PostMapping("/createDonation")
     public void createDonation(@RequestBody Stock stock) throws Exception {

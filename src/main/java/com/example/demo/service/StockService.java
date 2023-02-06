@@ -26,12 +26,12 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    public ResponseEntity<List<StockSimple>> findAllPieces(UserDTO userDTO) {
-        return new ResponseEntity<>(stockRepository.findAllPieces(userDTO), HttpStatus.OK);
+    public ResponseEntity<List<StockSimple>> findAllPieces() {
+        return new ResponseEntity<>(stockRepository.findAllPieces(), HttpStatus.OK);
     }
 
-    public ResponseEntity<StockSimple> findByPiece(Integer id, UserDTO userDTO) {
-        return new ResponseEntity<>(stockRepository.findByPiece(id,userDTO), HttpStatus.OK);
+    public ResponseEntity<StockSimple> findByPiece(Integer id) {
+        return new ResponseEntity<>(stockRepository.findByPiece(id), HttpStatus.OK);
     }
 
     public ResponseEntity<Stock> createDonation(Stock stock) throws Exception {
