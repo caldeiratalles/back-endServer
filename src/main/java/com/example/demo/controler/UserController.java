@@ -1,6 +1,7 @@
 package com.example.demo.controler;
 
 import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.UserChangeSenha;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
 import com.example.demo.service.UserService;
@@ -25,12 +26,17 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<UserCreator> createUser(@RequestBody UserCreator user){
-        return userService.createUser(user);
+    public void createUser(@RequestBody UserCreator user){
+        userService.createUser(user);
+    }
+
+    @PutMapping("/trocarSenha")
+    public void changeSenha(@RequestBody UserChangeSenha user){
+        userService.changeSenha(user);
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<UserCreator> deleteUser(@RequestBody UserCreator user){
-        return userService.deleteUser(user);
+    public void deleteUser(@RequestBody UserCreator user){
+        userService.deleteUser(user);
     }
 }

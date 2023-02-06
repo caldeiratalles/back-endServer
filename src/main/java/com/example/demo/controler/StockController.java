@@ -4,8 +4,8 @@ import com.example.demo.models.Stock;
 import com.example.demo.models.dto.CategoriaItemDTO;
 import com.example.demo.models.dto.CategoriasItemDTO;
 import com.example.demo.models.dto.StockDTO;
+import com.example.demo.models.dto.UserDTO;
 import com.example.demo.service.StockService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,37 +21,42 @@ public class StockController {
     }
 
     @GetMapping("/allPiece")
-    public ResponseEntity<List<StockDTO>> findAllPieces(){
-        return stockService.findAllPieces();
+    public List<Stock>  findAllPieces(@RequestBody UserDTO userDTO){
+        return stockService.findAllPieces(userDTO).getBody();
     }
 
     @GetMapping("/byPiece/{id}")
-    public ResponseEntity<StockDTO> findByPiece(@PathVariable Integer id){
-        return stockService.findByPiece(id);
+    public StockDTO findByPiece(@PathVariable Integer id,@RequestBody UserDTO userDTO){
+        return stockService.findByPiece(id,userDTO).getBody();
     }
 
     @GetMapping("/categoria")
-    public ResponseEntity<List<CategoriasItemDTO>> findCategoria(){
-        return stockService.categoriaItem();
+    public List<CategoriasItemDTO> findCategoria(){
+        return stockService.categoriaItem().getBody();
     }
 
     @GetMapping("/byPieceCategoria/{id}")
-    public ResponseEntity<List<CategoriaItemDTO>> findCategoriabyPiece(@PathVariable Integer id){
-        return stockService.findCategoriabyPiece(id);
+    public List<CategoriaItemDTO> findCategoriabyPiece(@PathVariable Integer id){
+        return stockService.findCategoriabyPiece(id).getBody();
     }
 
     @PostMapping("/createDonation")
-    public ResponseEntity<Stock> createDonation(@RequestBody Stock stock){
-        return stockService.createDonation(stock);
+    public Stock createDonation(@RequestBody Stock stock) throws Exception {
+        return stockService.createDonation(stock).getBody();
     }
 
     @PostMapping("/requestDonation")
-    public ResponseEntity<Stock> requestDonation(@RequestBody Stock stock){
-         return stockService.requestDonation(stock);
+    public Stock requestDonation(@RequestBody Stock stock) throws Exception {
+         return stockService.requestDonation(stock).getBody();
+    }
+
+    @PutMapping("/editar/{id}")
+    public void editarRequest(@RequestBody Stock stock, @PathVariable Integer id){
+        stockService.editarPeca(stock,id);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deletepeca(@PathVariable Integer id){
+    public void deletepeca(@PathVariable Integer id) throws Exception {
         stockService.deletePeca(id);
     }
 }

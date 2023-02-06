@@ -1,11 +1,14 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.CategoriasItemDTO;
+import com.example.demo.models.dto.UserChangeSenha;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -35,6 +38,10 @@ public class UserRepository {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
             return null;
         }
+    }
+
+    public Integer findUser(UserDTO userDTO){
+        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario where login = "+userDTO.getUsername(),new BeanPropertyRowMapper<>(Integer.class));
     }
 
     @Transactional
@@ -73,5 +80,18 @@ public class UserRepository {
             LOGGER.error("Impossivel logar o usuario com o email: "+user.getEmail());
             return 0;
         }
+    }
+
+    public int trocarSenha(UserChangeSenha user) {
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("senhaNova",user.getSenhaNova());
+        sqlParametrosSelect.addValue("username",user.getUsername());
+        return this.jdbcTemplate.update(
+                "UPDATE tb_usuario SET senha = :senhaNova WHERE login = :username",
+                sqlParametrosSelect);
+    }
+
+    public int validar(UserChangeSenha user) {
+        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario WHERE tb_usuario.login = '"+user.getUsername()+"' AND tb_usuario.senha = md5('"+user.getSenha()+"') AND tb_usuario.ativo = 1 ",new BeanPropertyRowMapper<>(Integer.class));
     }
 }

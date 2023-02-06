@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.models.UserCreator;
+import com.example.demo.models.dto.UserChangeSenha;
 import com.example.demo.models.dto.UserDTO;
 import com.example.demo.repository.UserRepository;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class UserService {
     public ResponseEntity<UserCreator> createUser(UserCreator user) {
         LOGGER.info(user.toString());
         if(userRepository.createUser(user) == 0){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            throw new Exception("Usuario já existe");
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -31,16 +32,23 @@ public class UserService {
     public ResponseEntity<UserCreator> deleteUser(UserCreator user) {
         LOGGER.info(user.toString());
         if(userRepository.deleteUser(user) == 0){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            throw new Exception("Usuario nao cadastrado ou nao existe");
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     public ResponseEntity<UserDTO> login(UserDTO user) {
 
-        if(userRepository.login(user) == null){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        if(userRepository.findUser(user) == 0 && userRepository.login(user) != null){
+            throw new Exception("Senha incorreta");
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    public ResponseEntity<UserChangeSenha> changeSenha(UserChangeSenha user) {
+        if(userRepository.validar(user) != 1){
+            userRepository.trocarSenha(user);
+        }
+        throw new Exception("Ocorreu um erro");
     }
 }
