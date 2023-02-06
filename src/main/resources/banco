@@ -1,33 +1,33 @@
 -- ____________________________________________CREATE DATABASE____________________________
 
 -- -----------------------------------------------------
--- Schema HelpDelivery
+-- Schema railway
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `HelpDelivery` DEFAULT CHARACTER SET utf8 ;
-USE `HelpDelivery` ;
+CREATE SCHEMA IF NOT EXISTS `railway` DEFAULT CHARACTER SET utf8 ;
+USE `railway` ;
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_tipo_usuario`
+-- Table `railway`.`td_tipo_usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`td_tipo_usuario` (
+CREATE TABLE IF NOT EXISTS `railway`.`td_tipo_usuario` (
   `id_tipo_usuario` INT NOT NULL AUTO_INCREMENT,
   `tipo_usuario` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_tipo_usuario`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_sexo`
+-- Table `railway`.`td_sexo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`td_sexo` (
+CREATE TABLE IF NOT EXISTS `railway`.`td_sexo` (
   `id_sexo` INT NOT NULL AUTO_INCREMENT,
   `sexo` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id_sexo`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_dados`
+-- Table `railway`.`tb_dados`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_dados` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_dados` (
   `id_dados` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(255) NOT NULL,
   `cpf_cnpj` VARCHAR(20) NOT NULL,
@@ -37,13 +37,13 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_dados` (
   INDEX `fk_tb_dados_td_sexo1_idx` (`td_sexo_id_sexo`),
   CONSTRAINT `fk_tb_dados_td_sexo1`
     FOREIGN KEY (`td_sexo_id_sexo`)
-    REFERENCES `HelpDelivery`.`td_sexo` (`id_sexo`));
+    REFERENCES `railway`.`td_sexo` (`id_sexo`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_usuario`
+-- Table `railway`.`tb_usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_usuario` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(100) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
@@ -56,25 +56,25 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_usuario` (
   INDEX `fk_tb_usuario_tb_dados1_idx` (`tb_dados_id_dados`),
   CONSTRAINT `fk_tb_usuario_td_tipo_usuario`
     FOREIGN KEY (`td_tipo_usuario_id_tipo_usuario`)
-    REFERENCES `HelpDelivery`.`td_tipo_usuario` (`id_tipo_usuario`),
+    REFERENCES `railway`.`td_tipo_usuario` (`id_tipo_usuario`),
   CONSTRAINT `fk_tb_usuario_tb_dados1`
     FOREIGN KEY (`tb_dados_id_dados`)
-    REFERENCES `HelpDelivery`.`tb_dados` (`id_dados`));
+    REFERENCES `railway`.`tb_dados` (`id_dados`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_tipo_email`
+-- Table `railway`.`td_tipo_email`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`td_tipo_email` (
+CREATE TABLE IF NOT EXISTS `railway`.`td_tipo_email` (
   `id_tipo_email` INT NOT NULL AUTO_INCREMENT,
   `tipo_email` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_tipo_email`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_email`
+-- Table `railway`.`tb_email`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_email` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_email` (
   `id_email` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `tb_dados_id_dados` INT NOT NULL,
@@ -84,25 +84,25 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_email` (
   INDEX `fk_tb_email_td_tipo_email1_idx` (`td_tipo_email_id_tipo_email`),
   CONSTRAINT `fk_tb_email_tb_dados1`
     FOREIGN KEY (`tb_dados_id_dados`)
-    REFERENCES `HelpDelivery`.`tb_dados` (`id_dados`),
+    REFERENCES `railway`.`tb_dados` (`id_dados`),
   CONSTRAINT `fk_tb_email_td_tipo_email1`
     FOREIGN KEY (`td_tipo_email_id_tipo_email`)
-    REFERENCES `HelpDelivery`.`td_tipo_email` (`id_tipo_email`));
+    REFERENCES `railway`.`td_tipo_email` (`id_tipo_email`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_tipo_telefone`
+-- Table `railway`.`td_tipo_telefone`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`td_tipo_telefone` (
+CREATE TABLE IF NOT EXISTS `railway`.`td_tipo_telefone` (
   `id_tipo_telefone` INT NOT NULL AUTO_INCREMENT,
   `tipo_telefone` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_tipo_telefone`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_telefone`
+-- Table `railway`.`tb_telefone`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_telefone` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_telefone` (
   `id_telefone` INT NOT NULL AUTO_INCREMENT,
   `telefone` VARCHAR(25) NOT NULL,
   `tb_dados_id_dados` INT NOT NULL,
@@ -112,16 +112,16 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_telefone` (
   INDEX `fk_tb_telefone_td_tipo_telefone1_idx` (`td_tipo_telefone_id_tipo_telefone`),
   CONSTRAINT `fk_tb_telefone_tb_dados1`
     FOREIGN KEY (`tb_dados_id_dados`)
-    REFERENCES `HelpDelivery`.`tb_dados` (`id_dados`),
+    REFERENCES `railway`.`tb_dados` (`id_dados`),
   CONSTRAINT `fk_tb_telefone_td_tipo_telefone1`
     FOREIGN KEY (`td_tipo_telefone_id_tipo_telefone`)
-    REFERENCES `HelpDelivery`.`td_tipo_telefone` (`id_tipo_telefone`));
+    REFERENCES `railway`.`td_tipo_telefone` (`id_tipo_telefone`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_tipo_endereco`
+-- Table `railway`.`td_tipo_endereco`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_tipo_endereco` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_tipo_endereco` (
   `id_tipo_endereco` INT NOT NULL AUTO_INCREMENT,
   `logradouro` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_tipo_endereco`));
@@ -130,9 +130,9 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_tipo_endereco` (
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_estado`
+-- Table `railway`.`tb_estado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_estado` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_estado` (
   `id_estado` INT NOT NULL AUTO_INCREMENT,
   `estado` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_estado`));
@@ -140,9 +140,9 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_estado` (
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_cidade`
+-- Table `railway`.`tb_cidade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_cidade` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_cidade` (
   `id_cidade` INT NOT NULL AUTO_INCREMENT,
   `cidade` VARCHAR(45) NOT NULL,
   `tb_estado_id_estado` INT NOT NULL,
@@ -150,13 +150,13 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_cidade` (
   INDEX `fk_tb_cidade_tb_estado1_idx` (`tb_estado_id_estado`),
   CONSTRAINT `fk_tb_cidade_tb_estado1`
     FOREIGN KEY (`tb_estado_id_estado`)
-    REFERENCES `HelpDelivery`.`tb_estado` (`id_estado`));
+    REFERENCES `railway`.`tb_estado` (`id_estado`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_bairro`
+-- Table `railway`.`tb_bairro`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_bairro` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_bairro` (
   `id_bairro` INT NOT NULL AUTO_INCREMENT,
   `bairro` VARCHAR(255) NOT NULL,
   `tb_cidade_id_cidade` INT NOT NULL,
@@ -164,13 +164,13 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_bairro` (
   INDEX `fk_tb_bairro_tb_cidade1_idx` (`tb_cidade_id_cidade`),
   CONSTRAINT `fk_tb_bairro_tb_cidade1`
     FOREIGN KEY (`tb_cidade_id_cidade`)
-    REFERENCES `HelpDelivery`.`tb_cidade` (`id_cidade`));
+    REFERENCES `railway`.`tb_cidade` (`id_cidade`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_endereco`
+-- Table `railway`.`tb_endereco`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_endereco` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_endereco` (
   `id_endereco` INT NOT NULL AUTO_INCREMENT,
   `cep` VARCHAR(15) NOT NULL,
   `numero` VARCHAR(100) NOT NULL,
@@ -182,41 +182,41 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_endereco` (
   INDEX `fk_tb_endereco_tb_bairro1_idx` (`tb_bairro_id_bairro`),
   CONSTRAINT `fk_tb_endereco_tb_tipo_endereco1`
     FOREIGN KEY (`tb_tipo_endereco_id_tipo_endereco`)
-    REFERENCES `HelpDelivery`.`tb_tipo_endereco` (`id_tipo_endereco`),
+    REFERENCES `railway`.`tb_tipo_endereco` (`id_tipo_endereco`),
   CONSTRAINT `fk_tb_endereco_tb_bairro1`
     FOREIGN KEY (`tb_bairro_id_bairro`)
-    REFERENCES `HelpDelivery`.`tb_bairro` (`id_bairro`));
+    REFERENCES `railway`.`tb_bairro` (`id_bairro`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`ta_moradia`
+-- Table `railway`.`ta_moradia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`ta_moradia` (
+CREATE TABLE IF NOT EXISTS `railway`.`ta_moradia` (
   `tb_dados_id_dados` INT NOT NULL,
   `tb_endereco_id_endereco` INT NOT NULL,
   INDEX `fk_tb_dados_has_tb_endereco_tb_endereco1_idx` (`tb_endereco_id_endereco`),
   INDEX `fk_tb_dados_has_tb_endereco_tb_dados1_idx` (`tb_dados_id_dados`),
   CONSTRAINT `fk_tb_dados_has_tb_endereco_tb_dados1`
     FOREIGN KEY (`tb_dados_id_dados`)
-    REFERENCES `HelpDelivery`.`tb_dados` (`id_dados`),
+    REFERENCES `railway`.`tb_dados` (`id_dados`),
   CONSTRAINT `fk_tb_dados_has_tb_endereco_tb_endereco1`
     FOREIGN KEY (`tb_endereco_id_endereco`)
-    REFERENCES `HelpDelivery`.`tb_endereco` (`id_endereco`));
+    REFERENCES `railway`.`tb_endereco` (`id_endereco`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`td_categoria`
+-- Table `railway`.`td_categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`td_categoria` (
+CREATE TABLE IF NOT EXISTS `railway`.`td_categoria` (
   `id_categoria` INT NOT NULL AUTO_INCREMENT,
   `categoria` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id_categoria`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`tb_item`
+-- Table `railway`.`tb_item`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_item` (
+CREATE TABLE IF NOT EXISTS `railway`.`tb_item` (
   `id_item` INT NOT NULL AUTO_INCREMENT,
   `item` VARCHAR(100) NOT NULL,
   `descricao` VARCHAR(255) NOT NULL,
@@ -228,13 +228,13 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`tb_item` (
   INDEX `fk_tb_item_td_categoria1_idx` (`td_categoria_id_categoria`),
   CONSTRAINT `fk_tb_item_td_categoria1`
     FOREIGN KEY (`td_categoria_id_categoria`)
-    REFERENCES `HelpDelivery`.`td_categoria` (`id_categoria`));
+    REFERENCES `railway`.`td_categoria` (`id_categoria`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`ta_doacao`
+-- Table `railway`.`ta_doacao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`ta_doacao` (
+CREATE TABLE IF NOT EXISTS `railway`.`ta_doacao` (
   `tb_item_id_item` INT NOT NULL,
   `tb_usuario_id_usuario` INT NOT NULL,
   `qtd_saida` INT NOT NULL Default 0,
@@ -242,16 +242,16 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`ta_doacao` (
   INDEX `fk_tb_item_has_tb_usuario_tb_item1_idx` (`tb_item_id_item`),
   CONSTRAINT `fk_tb_item_has_tb_usuario_tb_item1`
     FOREIGN KEY (`tb_item_id_item`)
-    REFERENCES `HelpDelivery`.`tb_item` (`id_item`),
+    REFERENCES `railway`.`tb_item` (`id_item`),
   CONSTRAINT `fk_tb_item_has_tb_usuario_tb_usuario1`
     FOREIGN KEY (`tb_usuario_id_usuario`)
-    REFERENCES `HelpDelivery`.`tb_usuario` (`id_usuario`));
+    REFERENCES `railway`.`tb_usuario` (`id_usuario`));
 
 
 -- -----------------------------------------------------
--- Table `HelpDelivery`.`ta_recebe`
+-- Table `railway`.`ta_recebe`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HelpDelivery`.`ta_recebe` (
+CREATE TABLE IF NOT EXISTS `railway`.`ta_recebe` (
   `tb_item_id_item` INT NOT NULL,
   `tb_usuario_id_usuario` INT NOT NULL,
   `qtd_entrada` INT NOT NULL Default 0,
@@ -259,10 +259,10 @@ CREATE TABLE IF NOT EXISTS `HelpDelivery`.`ta_recebe` (
   INDEX `fk_tb_item_has_tb_usuario_tb_item2_idx` (`tb_item_id_item`),
   CONSTRAINT `fk_tb_item_has_tb_usuario_tb_item2`
     FOREIGN KEY (`tb_item_id_item`)
-    REFERENCES `HelpDelivery`.`tb_item` (`id_item`),
+    REFERENCES `railway`.`tb_item` (`id_item`),
   CONSTRAINT `fk_tb_item_has_tb_usuario_tb_usuario2`
     FOREIGN KEY (`tb_usuario_id_usuario`)
-    REFERENCES `HelpDelivery`.`tb_usuario` (`id_usuario`));
+    REFERENCES `railway`.`tb_usuario` (`id_usuario`));
 
 -- _______________________________________________________________________________________
 SET GLOBAL log_bin_trust_function_creators = 1;
