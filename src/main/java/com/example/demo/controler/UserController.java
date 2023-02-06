@@ -33,7 +33,7 @@ public class UserController {
         userService.changeSenha(user);
     }
 
-    @DeleteMapping("/deleteUser")
+    @PutMapping("/deleteUser")
     public void deleteUser(@RequestBody UserDTO user) throws Exception {
         userService.deleteUser(user);
     }
