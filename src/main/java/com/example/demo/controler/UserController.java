@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public UserDTO login(@RequestBody UserDTO user) throws Exception {
         return userService.login(user).getBody();
     }
