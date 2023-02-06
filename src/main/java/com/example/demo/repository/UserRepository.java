@@ -45,11 +45,12 @@ public class UserRepository {
     }
 
     @Transactional
-    public int deleteUser(UserCreator user){
+    public int deleteUser(UserDTO user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("username",user.getUsername());
-        return this.jdbcTemplate.update(
-                    "UPDATE tb_usuario SET ativo = 0 WHERE login = :username",
+        sqlParametrosSelect.addValue("senha",user.getSenha());
+        return this.namedParameterJdbcTemplate.update(
+                    "UPDATE tb_usuario SET ativo = 0 WHERE login = :username AND senha=md5(:senha)",
                     sqlParametrosSelect);
     }
 

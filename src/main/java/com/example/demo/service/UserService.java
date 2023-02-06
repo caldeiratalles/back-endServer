@@ -31,7 +31,7 @@ public class UserService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    public ResponseEntity<UserCreator> deleteUser(UserCreator user) throws Exception {
+    public ResponseEntity<UserDTO> deleteUser(UserDTO user) throws Exception {
         LOGGER.info(user.toString());
         if(userRepository.deleteUser(user) == 0){
             throw new Exception("Usuario nao cadastrado ou nao existe");
