@@ -16,5 +16,5 @@ public class StockSimple {
     private String descricao;
     private Integer qtd_estoque;
     private String imagem;
-    private String categoria;
+    private Integer categoria;
 }

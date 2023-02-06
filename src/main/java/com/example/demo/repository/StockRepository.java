@@ -119,7 +119,7 @@ public class StockRepository {
     public int deletePeca(Integer id) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("id",id);
-        return this.jdbcTemplate.update(
+        return this.namedParameterJdbcTemplate.update(
                 "UPDATE tb_item SET ativo = 0 WHERE id_item = :id",
                 sqlParametrosSelect);
     }
@@ -130,10 +130,12 @@ public class StockRepository {
         sqlParametrosSelect.addValue("nomeItem", stock.getItem());
         sqlParametrosSelect.addValue("img", stock.getImagem());
         sqlParametrosSelect.addValue("id",stock.getId_item());
-        return this.jdbcTemplate.update(
+        sqlParametrosSelect.addValue("categoria",stock.getCategoria());
+        sqlParametrosSelect.addValue("descricao",stock.getDescricao());
+        return this.namedParameterJdbcTemplate.update(
                 "UPDATE tb_item SET" +
-                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  " +
-                    "WHERE id_item=:id AND qtd_estoque >= :quantidade",
+                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  , ativo = 1, descricao = :descricao " +
+                    "WHERE id_item=:id",
                 sqlParametrosSelect);
     }
 }
