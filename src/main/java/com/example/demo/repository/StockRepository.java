@@ -60,23 +60,28 @@ public class StockRepository {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
         return this.namedParameterJdbcTemplate.query(
-                    "SELECT id_item,item,descricao,qtd_estoque,imagem,categoria " +
-                        "FROM tb_item ti INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria " +
-                        "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
-                        "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
-                        "WHERE tu.ativo = 1 AND ti.ativo = 1 AND tu.login = :login_usuario", sqlParametrosSelect,
+                    "    select DISTINCT  i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, c.categoria\n" +
+                            "    from tb_item i\n" +
+                            "    inner join ta_recebe tr  on i.id_item = tr.tb_item_id_item\n" +
+                            "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
+                            "    inner join tb_usuario u on u.id_usuario = tr.tb_usuario_id_usuario\n" +
+                            "    where u.login = :login_usuario and i.ativo = 1 and u.ativo = 1", sqlParametrosSelect,
                     new BeanPropertyRowMapper<>(StockSimple.class));
     }
 
     public StockSimple findByPiece(Integer id_item,UserDTO userDTO){
-        String sql = String.format("SELECT *\n" +
-                "FROM tb_item ti\n" +
-                "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria\n" +
-                "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
-                "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
-                "WHERE ti.id_item = %1$s AND ti.ativo = 1 AND tu.login = '"+userDTO.getUsername()+"'", id_item);
-        return this.jdbcTemplate.queryForObject(
-                sql,
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("login_usuario",userDTO.getUsername());
+        sqlParametrosSelect.addValue("id_item",id_item);
+
+        return this.namedParameterJdbcTemplate.queryForObject(
+                "    select DISTINCT  i.id_item, i.item, i.descricao, i.qtd_estoque as qtd_estoque, i.imagem, c.categoria\n" +
+                        "    from tb_item i\n" +
+                        "    inner join ta_recebe tr  on i.id_item = tr.tb_item_id_item\n" +
+                        "    inner join td_categoria c on i.td_categoria_id_categoria = c.id_categoria\n" +
+                        "    inner join tb_usuario u on u.id_usuario = tr.tb_usuario_id_usuario\n" +
+                        "    where u.login = :login_usuario and i.ativo = 1 and u.ativo = 1 and i.id_item = :id_item",
+                sqlParametrosSelect,
                 new BeanPropertyRowMapper<>(StockSimple.class));
     }
 

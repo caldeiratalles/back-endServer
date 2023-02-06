@@ -36,6 +36,7 @@ public class StockService {
 
     public ResponseEntity<Stock> createDonation(Stock stock) throws Exception {
         LOGGER.info(stock.toString());
+        LOGGER.info(String.valueOf(stockRepository.createDonation(stock)));
         if(stockRepository.createDonation(stock) == 0){
             throw new Exception("Impossivel fazer doação");
         }
@@ -44,6 +45,7 @@ public class StockService {
 
     public ResponseEntity<Stock> requestDonation(Stock stock) throws Exception {
         LOGGER.info(stock.toString());
+        LOGGER.info(String.valueOf(stockRepository.requestDonation(stock)));
         if(stockRepository.requestDonation(stock) == 0){
             throw new Exception("Impossivel fazer requisição da doação");
         }else{
