@@ -39,9 +39,10 @@ public class UserService {
 
     public ResponseEntity<UserDTO> login(UserDTO user) throws Exception {
 
-        if(userRepository.findUser(user) == 0 && userRepository.login(user) != null){
+        if(userRepository.login(user) != null){
             throw new Exception("Senha incorreta");
         }
+        LOGGER.info(userRepository.login(user).getUsername());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

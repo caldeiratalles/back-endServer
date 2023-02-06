@@ -124,12 +124,12 @@ public class StockRepository {
                 sqlParametrosSelect);
     }
 
-    public int editarPeca(StockSimple stock, Integer id) {
+    public int editarPeca(StockSimple stock) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("quantidade", stock.getQtd_estoque());
         sqlParametrosSelect.addValue("nomeItem", stock.getItem());
         sqlParametrosSelect.addValue("img", stock.getImagem());
-        sqlParametrosSelect.addValue("id",id);
+        sqlParametrosSelect.addValue("id",stock.getId_item());
         return this.jdbcTemplate.update(
                 "UPDATE tb_item SET" +
                     " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  " +

@@ -40,7 +40,7 @@ public class UserRepository {
     }
 
     public Integer findUser(UserDTO userDTO){
-        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario where login = "+userDTO.getUsername(),new BeanPropertyRowMapper<>(Integer.class));
+        return this.jdbcTemplate.queryForObject("SELECT count(*) FROM tb_usuario where login = '"+userDTO.getUsername()+"'" ,new BeanPropertyRowMapper<>(Integer.class));
     }
 
     @Transactional
