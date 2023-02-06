@@ -68,15 +68,16 @@ public class StockRepository {
                     new BeanPropertyRowMapper<>(StockSimple.class));
     }
 
-    public StockDTO findByPiece(Integer id_item,UserDTO userDTO){
+    public StockSimple findByPiece(Integer id_item,UserDTO userDTO){
         String sql = String.format("SELECT *\n" +
                 "FROM tb_item ti\n" +
                 "INNER JOIN td_categoria tc ON ti.td_categoria_id_categoria = tc.id_categoria\n" +
-                "WHERE ti.id_item = %1$s AND ti.ativo = 1 AND tb_usuario.login = '"+userDTO.getUsername()+"'", id_item);
+                "INNER JOIN ta_doacao ta ON ta.tb_item_id_item = ti.id_item " +
+                "INNER JOIN tb_usuario tu ON ta.tb_usuario_id_usuario = tu.id_usuario " +
+                "WHERE ti.id_item = %1$s AND ti.ativo = 1 AND tu.login = '"+userDTO.getUsername()+"'", id_item);
         return this.jdbcTemplate.queryForObject(
                 sql,
-                new Object[]{},
-                (rs, rowNum) -> StockMapper.stockMapper(rs));
+                new BeanPropertyRowMapper<>(StockSimple.class));
     }
 
     @Transactional
@@ -124,13 +125,12 @@ public class StockRepository {
                 sqlParametrosSelect);
     }
 
-    public int editarPeca(StockSimple stock, Integer id) {
+    public int editarPeca(StockSimple stock) {
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
         sqlParametrosSelect.addValue("quantidade", stock.getQtd_estoque());
         sqlParametrosSelect.addValue("nomeItem", stock.getItem());
         sqlParametrosSelect.addValue("img", stock.getImagem());
-        sqlParametrosSelect.addValue("id",id);
-        sqlParametrosSelect.addValue("categoria",stock.getCategoria());
+        sqlParametrosSelect.addValue("id",stock.getId_item());
         sqlParametrosSelect.addValue("descricao",stock.getDescricao());
         return this.namedParameterJdbcTemplate.update(
                 "UPDATE tb_item SET" +

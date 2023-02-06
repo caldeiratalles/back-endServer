@@ -30,7 +30,7 @@ public class StockService {
         return new ResponseEntity<>(stockRepository.findAllPieces(userDTO), HttpStatus.OK);
     }
 
-    public ResponseEntity<StockDTO> findByPiece(Integer id, UserDTO userDTO) {
+    public ResponseEntity<StockSimple> findByPiece(Integer id, UserDTO userDTO) {
         return new ResponseEntity<>(stockRepository.findByPiece(id,userDTO), HttpStatus.OK);
     }
 
@@ -66,7 +66,7 @@ public class StockService {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    public void editarPeca(StockSimple stock, Integer id) {
-        stockRepository.editarPeca(stock,id);
+    public void editarPeca(StockSimple stock) {
+        stockRepository.editarPeca(stock);
     }
 }

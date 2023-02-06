@@ -24,11 +24,14 @@ public class StockController {
         return stockService.findAllPieces(userDTO).getBody();
     }
 
-    @PutMapping("/editar/{id}")
-    public void editarRequest(@RequestBody StockSimple stock, @PathVariable Integer id){
-        stockService.editarPeca(stock,id);
+    @PutMapping("/editar")
+    public void editarRequest(@RequestBody StockSimple stock){
+        stockService.editarPeca(stock);
     }
-
+    @PostMapping("/byPiece/{id}")
+    public StockSimple findByPiece(@PathVariable Integer id,@RequestBody UserDTO userDTO){
+        return stockService.findByPiece(id,userDTO).getBody();
+    }
     @PostMapping("/createDonation")
     public void createDonation(@RequestBody Stock stock) throws Exception {
         stockService.createDonation(stock).getBody();
