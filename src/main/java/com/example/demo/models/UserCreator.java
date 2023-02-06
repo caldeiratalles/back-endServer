@@ -22,7 +22,7 @@ public class UserCreator {
     private String telefone; // telefone_usuario
     private Integer tipoTelefone; // td_tipo_telefone_id_tipo_telefone_usuario
     private String cep; // cep_endereco_usuario
-    private Integer numeroEndereco; // numero_endereco_usuario
+    private String numeroEndereco; // numero_endereco_usuario
     private String complementoEndereco; // complemento_endereco_usuario
     private String logradouro; // logradouro_usuario
     private String bairro; // bairro_usuario
