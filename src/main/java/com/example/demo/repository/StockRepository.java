@@ -40,7 +40,7 @@ public class StockRepository {
         sqlParametrosSelect.addValue("descricao_item",stock.getDescricao_item());
         sqlParametrosSelect.addValue("qtd_estoque_item",stock.getQtd_estoque_item());
         sqlParametrosSelect.addValue("imagem_item",stock.getImagem_item());
-        sqlParametrosSelect.addValue("td_categoria_id_categoria_item",stock.getTd_categoria_id_categoria_item());
+        sqlParametrosSelect.addValue("td_categoria_id_categoria",stock.getTd_categoria_id_categoria_item());
         sqlParametrosSelect.addValue("login_usuario",stock.getLogin_usuario());
         sqlParametrosSelect.addValue("recebe",stock.getRecebe());
         sqlParametrosSelect.addValue("doa",stock.getDoa());
@@ -61,7 +61,7 @@ public class StockRepository {
         sqlParametrosSelect.addValue("descricao_item",stock.getDescricao_item());
         sqlParametrosSelect.addValue("qtd_estoque_item",stock.getQtd_estoque_item());
         sqlParametrosSelect.addValue("imagem_item",stock.getImagem_item());
-        sqlParametrosSelect.addValue("td_categoria_id_categoria_item",stock.getTd_categoria_id_categoria_item());
+        sqlParametrosSelect.addValue("td_categoria_id_categoria",stock.getTd_categoria_id_categoria_item());
         sqlParametrosSelect.addValue("login_usuario",stock.getLogin_usuario());
         sqlParametrosSelect.addValue("recebe",stock.getRecebe());
         sqlParametrosSelect.addValue("doa",stock.getDoa());
