@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stock")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class StockController {
 
     private final StockService stockService;
@@ -19,37 +19,37 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/allPiece")
     public List<StockSimple> findAllPieces(){
         return stockService.findAllPieces().getBody();
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/editar")
     public void editarRequest(@RequestBody StockSimple stock){
         stockService.editarPeca(stock);
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/byPiece/{id}")
     public StockSimple findByPiece(@PathVariable Integer id){
         return stockService.findByPiece(id).getBody();
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/createDonation")
     public void createDonation(@RequestBody Stock stock) throws Exception {
         stockService.createDonation(stock).getBody();
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/requestDonation")
     public void requestDonation(@RequestBody Stock stock) throws Exception {
         stockService.requestDonation(stock).getBody();
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/delete/{id}")
     public void deletepeca(@PathVariable Integer id) throws Exception {
         stockService.deletePeca(id);

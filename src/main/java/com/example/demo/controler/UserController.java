@@ -18,25 +18,25 @@ public class UserController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public UserDTO login(@RequestBody UserDTO user) throws Exception {
         return userService.login(user).getBody();
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/createUser")
     public void createUser(@RequestBody UserCreator user) throws Exception {
         userService.createUser(user);
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/changePassword")
     public void changeSenha(@RequestBody UserChangeSenha user) throws Exception {
         userService.changeSenha(user);
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/deleteUser")
     public void deleteUser(@RequestBody UserDTO user) throws Exception {
         userService.deleteUser(user);
