@@ -134,7 +134,7 @@ public class StockRepository {
         sqlParametrosSelect.addValue("td_categoria_id_categoria",stock.getTd_categoria_id_categoria());
         return this.namedParameterJdbcTemplate.update(
                 "UPDATE tb_item SET" +
-                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img  , ativo = 1, descricao = :descricao, td_categoria_id_categoria = :td_categoria_id_categoria " +
+                    " qtd_estoque = :quantidade, item = :nomeItem, imagem = :img, descricao = :descricao, td_categoria_id_categoria = :td_categoria_id_categoria " +
                     "WHERE id_item=:id",
                 sqlParametrosSelect);
     }
