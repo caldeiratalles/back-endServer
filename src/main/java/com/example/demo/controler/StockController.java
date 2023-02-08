@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stock")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class StockController {
 
     private final StockService stockService;
