@@ -25,6 +25,12 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/loginAdmin")
+    public UserDTO loginAdmin(@RequestBody UserDTO user) throws Exception {
+        return userService.login(user).getBody();
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/createUser")
     public void createUser(@RequestBody UserCreator user) throws Exception {
         userService.createUser(user);

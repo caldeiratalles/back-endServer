@@ -44,6 +44,21 @@ public class UserRepository {
         }
     }
 
+    public UserDTO loginAdmin(UserDTO user){
+        MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();
+        sqlParametrosSelect.addValue("user",user.getUsername());
+        sqlParametrosSelect.addValue("senha",user.getSenha());
+        try {
+            return this.namedParameterJdbcTemplate.queryForObject(
+                    "SELECT login, senha FROM tb_usuario WHERE tb_usuario.login = :user AND tb_usuario.senha = md5(:senha) AND tb_usuario.ativo = 1 AND tb_usuario.td_tipo_usuario_id_tipo_usuario = 1",
+                    sqlParametrosSelect,
+                    (rs, rowNum) -> UserMapper.userMapper(rs));
+        } catch (EmptyResultDataAccessException ex) {
+            LOGGER.error("Impossivel logar o usuario com o email: "+user.getUsername());
+            return null;
+        }
+    }
+
     @Transactional
     public int deleteUser(UserDTO user){
         MapSqlParameterSource sqlParametrosSelect = new MapSqlParameterSource();

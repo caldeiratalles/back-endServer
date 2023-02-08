@@ -48,6 +48,15 @@ public class UserService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    public ResponseEntity<UserDTO> loginAdmin(UserDTO user) throws Exception {
+
+        if(userRepository.loginAdmin(user) == null){
+            throw new Exception("Senha incorreta");
+        }
+        LOGGER.info(userRepository.login(user).getUsername());
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     public ResponseEntity<UserChangeSenha> changeSenha(UserChangeSenha user) throws Exception {
         if(userRepository.trocarSenha(user) == 1){
             return new ResponseEntity<>(user, HttpStatus.OK);
